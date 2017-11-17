@@ -14,27 +14,27 @@ namespace RockyBus.UnitTests
         [TestMethod]
         public void create_message_handler_of_type_should_match_message_handler_type()
         {
-            given_a_creator();
-            when_creating_a_command_type(_messageHandlerTypeCreator);
+            given_a_message_handler_type_creator();
+            when_creating_a_command_type<AppleCommand>();
             then_created_type_should_be<AppleCommand>();
         }
 
         [TestMethod]
-        public void create_message_handler_of_different_type_should_not_match_message_handler_type()
+        public void create_message_handler_of_DIFFERENT_type_should_NOT_match_message_handler_type()
         {
-            given_a_creator();
-            when_creating_a_command_type(_messageHandlerTypeCreator);
+            given_a_message_handler_type_creator();
+            when_creating_a_command_type<AppleCommand>();
             then_created_type_should_NOT_be<BananaCommand>();
         }
 
-        void given_a_creator()
+        void given_a_message_handler_type_creator()
         {
             _messageHandlerTypeCreator = new MessageHandlerTypeCreator();
         }
 
-        void when_creating_a_command_type(MessageHandlerTypeCreator creator)
+        void when_creating_a_command_type<T>()
         {
-            _createdType = creator.Create(typeof(AppleCommand));
+            _createdType = _messageHandlerTypeCreator.Create(typeof(T));
         }
 
         void then_created_type_should_be<T>()
